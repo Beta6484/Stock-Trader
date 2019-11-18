@@ -17,7 +17,7 @@ import { merge, Observable, forkJoin } from 'rxjs';
 export class OrdersComponent implements OnInit {
   public hasOrder: boolean;
   public orders: Order[];
-  public stocks: Stock[];
+  public stocks = [];
   public orderList = [];
   private _currentUser: User;
 
@@ -39,7 +39,16 @@ export class OrdersComponent implements OnInit {
 
   private loadMyOrders() {
     this._orderService.getAll().pipe(first()).subscribe(orders => {
-      // this.orders = orders.filter(x => x.buyerId === this._currentUser.id);s
+      this.orders = orders.filter(x => x.buyerId === this._currentUser.id);
+
+      for(let i = 0; i < this.orders.length; i++) {
+        this._stockService.getById(this.orders[i].stockId).pipe(first()).subscribe(stocks => {
+          this.stocks.push(stocks);
+        })
+      }
+
+      console.log('ORDERS: ', this.orders, typeof this.orders);
+      console.log('STOCKS: ', this.stocks, typeof this.stocks);
     })
   }
 }

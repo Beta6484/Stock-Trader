@@ -12,16 +12,6 @@
         padding: .6rem 1rem;
         text-align: center;
     }
-    .st-link-button {
-        color: $theme-pri;
-        transition: .3s;
-        cursor: pointer;
-        padding: 0;
-        &:hover {
-            color: darken($theme-pri, 50%);
-            text-decoration: none;
-        }
-    }
 }
 
 @media (min-width: 768px) {

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
@@ -11,12 +10,14 @@ export class FooterComponent {
   public users = [];
   public stockList = [];
 
-  constructor(
-    private _router: Router
-  ) {
+  constructor() {
     this.currYear = new Date().getFullYear();
     this.users = JSON.parse(localStorage.getItem('users')) || [];
     this.stockList = JSON.parse(localStorage.getItem('stock-list')) || [];
+
+    if (localStorage.getItem('stock-list') === null) {
+      this.importFakeData();
+    }
   }
   
   public importFakeData() {
@@ -30,14 +31,6 @@ export class FooterComponent {
     this.stockList = this.stockList.concat(fakeStockData);
     localStorage.setItem('stock-list', JSON.stringify(this.stockList));
 
-    this._router.navigate(['']);
-    window.location.reload();
-  }
-
-  public clearFakeData() {
-    if (this.users.length > 1) {
-      this.users.pop();
-      localStorage.setItem('users', JSON.stringify(this.users));
-    }
+    console.log('*** Fake data successfully imported! ***');
   }
 }
