@@ -1,1 +1,147 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
+@import './app/helpers/var.scss';
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: $bg-color;
+    color: $font-color;
+}
+
+a, a:not([href]), .btn-link {
+    color: $theme-pri;
+    cursor: pointer;
+    transition: .3s;
+    &:hover {
+        color: darken($theme-pri, 50%);
+        text-decoration: none;
+    }
+}
+
+.material-form-group {
+    position: relative;
+    margin-bottom: 2rem;
+    .material-input {
+        display: block;
+        background-color: transparent !important;
+        width: 100%;
+        color: $font-color !important;
+        padding: .8rem .4rem .4rem;
+        border: none;
+        border-radius: 0;
+        border-bottom: 2px solid rgba($font-color, .2);
+        &:focus {
+            outline: none;
+        }
+        &:-internal-autofill-selected {
+            background-color: transparent !important;
+        }
+        &.is-invalid {
+            border-bottom-color: $error-color;
+        }
+        &:focus ~ .material-label,
+        &:valid ~ .material-label,
+        &:-internal-autofill-selected ~ .material-label {
+            top: -.8rem;
+            font-size: .8rem;
+            color: $theme-pri;
+        }
+        &:focus ~ .material-bar:before,
+        &:-internal-autofill-selected ~ .material-bar:before {
+            width: 100%;
+        }
+    }
+    .material-label {
+        color: $font-color;
+        position: absolute;
+        pointer-events: none;
+        left: .4rem;
+        top: .8rem;
+        transition: 300ms ease all;
+    }
+    .material-bar {
+        display: block;
+        position: relative;
+        width: 100%;
+        &::before {
+            content: '';
+            height: 2px;
+            width: 0;
+            bottom: 0px;
+            position: absolute;
+            background: $theme-pri;
+            transition: 300ms ease all;
+            left: 0%;
+        }
+    }
+}
+
+.btn-stpri {
+    background-color: $theme-pri;
+    color: $bg-color;
+    transition: .3s;
+    &:hover {
+        background-color: darken($theme-pri, 5);
+        color: darken($bg-color, 5);
+    }
+}
+
+.btn-stsec {
+    background-color: $theme-sec;
+    color: $bg-color;
+    transition: .3s;
+    &:hover {
+        background-color: darken($theme-sec, 5);
+        color: darken($bg-color, 5);
+    }
+}
+
+.btn-nude {
+    border: none;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    color: $font-color;
+    outline: none;
+}
+
+.field-error {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: $error-color;
+}
+
+.alert {
+    position: absolute;
+    margin: 1rem 1rem 0;
+    width: calc(100% - 2rem);
+    z-index: 1030;
+}
+
+.modal-content {
+    background-color: $bg-color;
+    color: $font-color;
+    .modal-header {
+        background-color: darken($bg-color, 5);
+        color: $theme-pri;
+        font-weight: bold;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $theme-pri;
+    border-radius: 10px;
+}

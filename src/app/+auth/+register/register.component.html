@@ -1,0 +1,55 @@
+<p class="mb-5">
+  <strong>Welcome!</strong><br>
+  Register now and enjoy all the features of our system.
+</p>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="material-form-group">
+    <input type="text" formControlName="username" class="material-input" [ngClass]="{ 'is-invalid': (submitted || f['username'].touched) && f['username'].errors }" required />
+    <span class="material-bar"></span>
+    <label class="material-label">Username</label>
+    <ng-container *ngIf="(submitted || f['username'].touched) && f['username'].errors">
+      <span class="field-error" *ngIf="f['username'].errors.required">Username is required</span>
+      <span class="field-error" *ngIf="f['username'].errors.minlength">Must be at least 4 characters</span>
+      <span class="field-error" *ngIf="f['username'].errors.maxlength">Must be at most 20 characters</span>
+      <span class="field-error" *ngIf="f['username'].errors.pattern">Cannot contain whitespace or special characters</span>
+    </ng-container>
+  </div>
+  <div class="material-form-group">
+    <input type="password" formControlName="password" class="material-input" [ngClass]="{ 'is-invalid': (submitted || f['password'].touched) && f['password'].errors }" required />
+    <span class="material-bar"></span>
+    <label class="material-label">Password</label>
+    <ng-container *ngIf="(submitted || f['password'].touched) && f['password'].errors">
+      <span class="field-error" *ngIf="f['password'].errors.required">Password is required</span>
+      <span class="field-error" *ngIf="f['password'].errors.minlength">Must be at least 8 characters</span>
+      <span class="field-error" *ngIf="f['password'].errors.maxlength">Must be at most 20 characters</span>
+    </ng-container>
+  </div>
+  <div class="material-form-group">
+    <input type="text" formControlName="company" class="material-input" [ngClass]="{ 'is-invalid': (submitted || f['company'].touched) && f['company'].errors }" required />
+    <span class="material-bar"></span>
+    <label class="material-label">Company</label>
+    <ng-container *ngIf="(submitted || f['company'].touched) && f['company'].errors">
+      <span class="field-error" *ngIf="f['company'].errors.required">Company is required</span>
+      <span class="field-error" *ngIf="f['company'].errors.minlength">Must be at least 4 characters</span>
+      <span class="field-error" *ngIf="f['company'].errors.maxlength">Must be at most 40 characters</span>
+    </ng-container>
+  </div>
+  <div class="material-form-group">
+    <input type="text" formControlName="email" class="material-input" [ngClass]="{ 'is-invalid': (submitted || f['email'].touched) && f['email'].errors }" required />
+    <span class="material-bar"></span>
+    <label class="material-label">E-Mail</label>
+    <ng-container *ngIf="(submitted || f['email'].touched) && f['email'].errors">
+      <span class="field-error" *ngIf="f['email'].errors.required">E-mail is required</span>
+      <span class="field-error" *ngIf="f['email'].errors.email">Must be a valid e-mail</span>
+    </ng-container>
+  </div>
+  <div class="form-group">
+    <button [disabled]="loading" class="btn btn-stpri w-100">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Register
+    </button>
+  </div>
+  <p class="mt-4">
+    Already registered, <a routerLink="/login" title="Register new account">please login</a>!
+  </p>
+</form>

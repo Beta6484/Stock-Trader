@@ -1,0 +1,31 @@
+<nav class="st-nav" [ngClass]="{ 'open': showMenu }">
+    <div class="st-nav-left">
+        <button class="st-nav-button" type="button" (click)="toggleMenu()">
+            <span></span>
+        </button>
+        <img class="st-nav-logo" src="assets/images/logo-hor.png" alt="Depeche Mode">
+    </div>
+    <ul class="st-nav-menu">
+        <li class="st-nav-item">
+            <a class="st-nav-link" [ngClass]="{ 'active': currentUrl == '' }" routerLink="/">Dashboard</a>
+        </li>
+        <li class="st-nav-item">
+            <a class="st-nav-link" [ngClass]="{ 'active': currentUrl == 'portfolio' }" routerLink="/portfolio">Portfolio</a>
+        </li>
+        <li class="st-nav-item">
+            <a class="st-nav-link" [ngClass]="{ 'active': currentUrl == 'orders' }" routerLink="/orders">Orders</a>
+        </li>
+        <li class="st-nav-item">
+            <a class="st-nav-link" [ngClass]="{ 'active': currentUrl == 'proposals' }" routerLink="/proposals">Proposals</a>
+        </li>
+    </ul>
+    <div class="st-nav-right">
+        <div class="st-info">
+            <div class="st-company">{{ company }}</div>
+            <div class="st-funds">Funds: ${{ funds }}</div>
+        </div>
+        <button class="btn btn-stsec btn-lg" title="Logout" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </div>
+</nav>

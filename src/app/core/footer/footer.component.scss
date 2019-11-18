@@ -1,0 +1,35 @@
+@import '../../helpers/var.scss';
+
+.st-footer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    font-size: .8rem;
+    color: grey;
+    background-color: $bg-color;
+    > div {
+        padding: .6rem 1rem;
+        text-align: center;
+    }
+    .st-link-button {
+        color: $theme-pri;
+        transition: .3s;
+        cursor: pointer;
+        padding: 0;
+        &:hover {
+            color: darken($theme-pri, 50%);
+            text-decoration: none;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .st-footer {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}

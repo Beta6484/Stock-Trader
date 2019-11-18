@@ -1,0 +1,22 @@
+<div class="row">
+    <ng-container *ngIf="hasOrder; else emptyList">
+        <!-- <div class="col-12 col-md-6 col-lg-4 col-xl-3 mt-3" *ngFor="let item of orders">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <span>
+                        <i class="fas fa-chart-line mr-2"></i>
+                        {{ item.company }}
+                    </span>
+                    <strong>
+                        {{ item.symbol }}
+                    </strong> 
+                </div>
+            </div>
+        </div> -->
+    </ng-container>
+    <ng-template #emptyList>
+        <div class="col text-center">
+            <h3 class="mt-5">You have no registered orders yet, visit your dashboard to view available options for purchase.</h3>
+        </div>
+    </ng-template>
+</div>

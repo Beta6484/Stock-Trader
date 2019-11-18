@@ -1,0 +1,25 @@
+@import '../../helpers/var.scss';
+
+.auth-layout {
+    display: flex;
+    height: 100vh;
+    .auth-forms {
+        background-color: $bg-color;
+        max-width: 100%;
+        width: 420px;
+        box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.5);
+        padding: 2rem;
+        .auth-logo {
+            width: 80%;
+            margin-bottom: 3.2rem;
+        }
+    }
+}
+
+@media only screen and (min-width: $md) {
+    .auth-layout {
+        background-image: url('../../../assets/images/auth-background.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}

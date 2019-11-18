@@ -1,0 +1,32 @@
+<p class="mb-5">
+  <strong>Welcome!</strong><br>
+  Login to access your dashboard.
+</p>
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div class="material-form-group">
+    <input type="text" formControlName="username" class="material-input" [ngClass]="{ 'is-invalid': (submitted || f['username'].touched) && f['username'].errors }" required />
+    <span class="material-bar"></span>
+    <label class="material-label">Username</label>
+    <div *ngIf="(submitted || f['username'].touched) && f['username'].errors" class="field-error">
+      Username is required
+    </div>
+  </div>
+  <div class="material-form-group">
+    <input type="password" formControlName="password" class="material-input" [ngClass]="{ 'is-invalid': (submitted || f['password'].touched) && f['password'].errors }" required />
+    <span class="material-bar"></span>
+    <label class="material-label">Password</label>
+    <div *ngIf="(submitted || f['password'].touched) && f['password'].errors" class="field-error">
+      Password is required
+    </div>
+  </div>
+  <div class="form-group">
+    <button [disabled]="loading" class="btn btn-stpri w-100">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Login
+    </button>
+  </div>
+  <p class="mt-4">
+    If you don't have an account yet, <a routerLink="/register" title="Register new account">register now </a>!
+  </p>
+</form>

@@ -1,0 +1,156 @@
+@import '../../helpers/var.scss';
+
+.st-nav {
+    position: sticky;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    padding: .6rem 1rem;
+    background-color: darken($bg-color, 5);
+    height: 62px;
+    overflow: hidden;
+    transition: height .5s, background-color .5s, padding .5s;
+    z-index: 1020;
+    .st-nav-left {
+        display: flex;
+        align-items: center;
+        .st-nav-button {
+            border: none;
+            background: transparent;
+            margin-right: 1rem;
+            height: 32px;
+            &:focus {
+                outline: none;
+            }
+            span {
+                position: relative;
+                display: block;
+                background: $theme-pri;
+                width: 30px;
+                height: 2px;
+                transition: .5s ease-in-out;
+                &::before, &::after {
+                    background: $theme-pri;
+                    content: '';
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    transition: .5s ease-in-out;
+                }
+                &::before {
+                    top: -10px;
+                }
+                &::after {
+                    bottom: -10px;
+                }
+            }
+        }
+        .st-nav-logo {
+            width: auto;
+            height: 32px;
+        }
+    }
+    .st-nav-menu {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        padding: 0;
+        margin: 2rem .2rem;
+        .st-nav-item {
+            margin: 1rem 0;
+            text-align: center;
+            .st-nav-link {
+                display: block;
+                color: $theme-pri;
+                font-weight: bold;
+                padding: .5rem 1.2rem;
+                text-decoration: none;
+                cursor: pointer;
+                background: linear-gradient(to bottom, $theme-sec 0%, $theme-sec 100%);
+                background-position: 0 100%;
+                background-repeat: repeat-x;
+                background-size: 1px 2px;
+                transition: background-size .3s, color .3s;
+                &:hover, &.active {
+                    color: $bg-color;
+                    background-size: 1px 100%;
+                }
+                &.active {
+                    cursor: default;
+                }
+            }
+        }
+    }
+    &.open {
+        background-color: $font-color;
+        padding: 1.2rem 1rem;
+        height: 100vh;
+        .st-nav-left {
+            .st-nav-button {
+                span {
+                    transform: rotate(45deg);
+                    &::before {
+                        transform: rotate(90deg);
+                        top: 0;
+                    }
+                    &::after {
+                        transform: rotate(90deg);
+                        bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+    .st-nav-right {
+        display: flex;
+        .st-info {
+            display: flex;
+            flex-grow: 1;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: .5rem 1rem;
+            font-size: .8rem;
+            border: 1px solid $theme-sec;
+            border-right: none;
+            border-top-left-radius: .3rem;
+            border-bottom-left-radius: .3rem;
+            color: $bg-color;
+        }
+        .btn {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+}
+
+/*** RESPONSIVE BREAKPOINTS ***/
+@media (min-width: $lg) {
+    .st-nav {
+        flex-direction: row;
+        align-items: center;
+        .st-nav-left {
+            .st-nav-button {
+                display: none;
+            }
+        }
+        .st-nav-menu {
+            flex-direction: row;
+            flex-grow: 1;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            .st-nav-item {
+                margin: 0 1rem;
+            }
+        }
+        .st-nav-right {
+            .st-info {
+                align-items: flex-end;
+                color: $font-color;
+                padding: .2rem 1rem;
+            }
+        }
+    }
+}
