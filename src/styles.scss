@@ -115,12 +115,24 @@ a, a:not([href]), .btn-link {
     color: $error-color;
 }
 
-.alert {
-    position: absolute;
-    margin: 1rem 1rem 0;
-    width: calc(100% - 2rem);
-    z-index: 1030;
+.lbl-item {
+    display: flex;
+    justify-content: space-between;
+    @extend %truncate;
+    strong {
+        margin-right: .5rem;
+    }
 }
+
+.alert {
+    position: fixed;
+    width: calc(100% - 30px);
+    margin: 15px;
+    z-index: 1030;
+    max-width: 280px;
+    right: 0;
+}
+
 
 .modal-content {
     background-color: $bg-color;
@@ -130,6 +142,11 @@ a, a:not([href]), .btn-link {
         color: $theme-pri;
         font-weight: bold;
     }
+}
+
+.card {
+    background-color: $theme-pri;
+    color: $bg-color;
 }
 
 ::-webkit-scrollbar {

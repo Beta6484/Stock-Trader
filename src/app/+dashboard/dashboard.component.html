@@ -1,29 +1,28 @@
-<div class="row">
-    <ng-container *ngIf="hasStock; else emptyList">
-        <div class="col-12 col-md-6 col-lg-4 col-xl-3 mt-3" *ngFor="let item of stockList">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between">
-                    <span>
-                        <i class="fas fa-chart-line mr-2"></i>
-                        {{ item.company }}
-                    </span>
-                    <strong>
-                        {{ item.symbol }}
-                    </strong> 
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-8">
-                            <div>
-                                Current value: ${{ item.price }}
-                            </div>
-                            <div>
-                                Available quantity: {{ item.quantity }}
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <button class="btn btn-stpri w-100 h-100" type="button" (click)="buyStockQuota(item.id, stockModal)">Buy</button>
-                        </div>
+<ng-container *ngIf="!isLoading; else loading">
+    <ng-container *ngIf="hasStock && (stockList$ | async) as stockList; else emptyList">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3 mt-3" *ngFor="let item of stockList">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center pt-2 pb-2">
+                        <strong>
+                            <i class="fas fa-chart-line mr-2"></i>
+                            {{ item.symbol }}
+                        </strong> 
+                        <button *ngIf="(user$ | async) as user" class="btn btn-stsec" type="button" (click)="buyStockQuota(item.id, stockModal)" [disabled]="item.userId === user.id">Make Offer</button>
+                    </div>
+                    <div class="card-body">
+                        <label class="lbl-item">
+                            <strong>Company:</strong> {{ item.company }}
+                        </label>
+                        <label class="lbl-item">
+                            <strong>Seller:</strong> {{ item.userCompany }}
+                        </label>
+                        <label class="lbl-item">
+                            <strong>Current value:</strong> ${{ item.price }}
+                        </label>
+                        <label class="lbl-item">
+                            <strong>Available quantity:</strong> {{ item.quantity }}
+                        </label>
                     </div>
                 </div>
             </div>
@@ -31,18 +30,28 @@
     </ng-container>
     <ng-template #emptyList>
         <div class="col text-center">
-            <h3 class="mt-5"><i class="fas fa-spinner fa-pulse"></i> Loading data, please wait...</h3>
+            <h3 class="mt-5">Stocklist empty!</h3>
         </div>
     </ng-template>
-</div>
+</ng-container>
+
+<ng-template #loading>
+    <div class="col text-center">
+        <h3 class="mt-5"><i class="fas fa-spinner fa-pulse"></i> Loading data, please wait...</h3>
+    </div>
+</ng-template>
+
 <ng-template #stockModal>
     <div class="modal-header">
         <span> {{ stock.company }} ({{ stock.symbol }}) </span>
         <button class="btn-nude" type="button" (click)="closeModal()" title="Close"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body">
-        <p>Quota current value: <strong>${{ stock.price }}</strong><br>
-        Current available quantity: <strong>{{ stock.quantity }}</strong></p>
+        <p>
+            Seller: <strong>{{ stock.userCompany }}</strong><br>
+            Quota current value: <strong>${{ stock.price }}</strong><br>
+            Current available quantity: <strong>{{ stock.quantity }}</strong>
+        </p>
         <form [formGroup]="offerForm" (ngSubmit)="placeOrder()" #offerFormItem="ngForm">
             <div class="material-form-group mt-4">
                 <input class="material-input" type="number" formControlName="offer" [ngClass]="{ 'is-invalid': submitted && f['offer'].errors }" required />
@@ -51,13 +60,13 @@
                 <div *ngIf="submitted && f['offer'].errors" class="field-error">Minimun offer is required</div>
             </div>
             <div class="material-form-group mt-4 mb-0">
-                <input class="material-input" type="number" formControlName="quantity" [ngClass]="{ 'is-invalid': submitted && f['quantity'].errors }" required />
+                <input class="material-input" type="number" formControlName="quantity" [ngClass]="{ 'is-invalid': submitted && f['quantity'].errors }" min="0" max="{{stock.quantity }}" required />
                 <span class="material-bar"></span>
                 <label class="material-label">Quantity</label>
                 <ng-container *ngIf="submitted && f['quantity'].errors">
                     <span class="field-error" *ngIf="submitted && f['quantity'].errors.required">Quantity is required for make offer</span>
-                    <span class="field-error" *ngIf="submitted && f['quantity'].errors.minlength">Minimum quantity of 1 quota</span>
-                    <span class="field-error" *ngIf="submitted && f['quantity'].errors.maxlength">Quantity must be equal to or less than available</span>
+                    <span class="field-error" *ngIf="submitted && f['quantity'].errors.min">Minimum quantity of 1 quota</span>
+                    <span class="field-error" *ngIf="submitted && f['quantity'].errors.max">Quantity must be equal to or less than available</span>
                 </ng-container>
             </div>
         </form>

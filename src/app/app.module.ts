@@ -5,8 +5,6 @@ import { RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-bootstrap';
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
-import { fakeBackendOrdersProvider } from './backend/fake-backend-orders.interceptor';
-import { fakeBackendStockListProvider } from './backend/fake-backend-stock-list.interceptor';
 import { fakeBackendUsersProvider } from './backend/fake-backend-users.interceptor';
 import { CoreModule } from './core/core.module';
 import { ErrorInterceptor } from './helpers/error.interceptor';
@@ -40,8 +38,6 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
       multi: true
     },
     fakeBackendUsersProvider,
-    fakeBackendStockListProvider,
-    fakeBackendOrdersProvider,
     Title
   ],
   bootstrap: [

@@ -17,7 +17,7 @@ export class UserService {
   }
 
   getById(id: number) {
-    return this._httpClient.get(`${environment.apiUrl}/users/${id}`);
+    return this._httpClient.get<User>(`${environment.apiUrl}/users/${id}`);
   }
 
   register(user: User) {

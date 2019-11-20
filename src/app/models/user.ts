@@ -5,5 +5,6 @@ export interface User {
     username: string;
     password: string;
     funds: number;
+    lastLogin: string;
     token: string
 }

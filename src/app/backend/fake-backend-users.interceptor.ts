@@ -20,9 +20,7 @@ export class FakeBackendUsersInterceptor implements HttpInterceptor {
             let body = {
               id: user.id,
               username: user.username,
-              email: user.email,
-              company: user.company,
-              funds: user.funds,
+              lastLogin: user.lastLogin,
               token: 'fake-token'
             };
 

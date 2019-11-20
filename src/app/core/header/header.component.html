@@ -20,9 +20,9 @@
         </li>
     </ul>
     <div class="st-nav-right">
-        <div class="st-info">
-            <div class="st-company">{{ company }}</div>
-            <div class="st-funds">Funds: ${{ funds }}</div>
+        <div class="st-info" *ngIf="(user$ | async) as user">
+            <div class="st-company">{{ user.company }}</div>
+            <div class="st-funds">Funds: ${{ user.funds }}</div>
         </div>
         <button class="btn btn-stsec btn-lg" title="Logout" (click)="logout()">
             <i class="fas fa-sign-out-alt"></i>

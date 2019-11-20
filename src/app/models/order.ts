@@ -2,10 +2,12 @@ export interface Order {
     id: number,
     stockId: number,
     buyerId: number,
+    buyerCompany: string,
     sellerId: number,
+    sellerCompany: string,
     offer: number,
     quantity: number,
     aproved: boolean,
-    aprovedOn: Date,
-    placedOn: Date
+    revisedOn: string,
+    placedOn: string
 }

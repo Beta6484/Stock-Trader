@@ -1,1 +1,38 @@
-<p>portfolio works!</p>
+<ng-container *ngIf="!isLoading; else loading">
+    <ng-container *ngIf="hasStock && (stockList$ | async) as stockList; else emptyList">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3 mt-3" *ngFor="let item of stockList">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <strong>
+                            <i class="fas fa-chart-line mr-2"></i>
+                            {{ item.symbol }}
+                        </strong>
+                    </div>
+                    <div class="card-body">
+                        <label class="lbl-item">
+                            <strong>Company:</strong> {{ item.company }}
+                        </label>
+                        <label class="lbl-item">
+                            <strong>Value:</strong> ${{ item.price }}
+                        </label>
+                        <label class="lbl-item">
+                            <strong>Quantity:</strong> {{ item.quantity }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #emptyList>
+        <div class="col text-center">
+            <h3 class="mt-5">You don't have any stocks yet, visit your dashboard to view available options for purchase.</h3>
+        </div>
+    </ng-template>
+</ng-container>
+
+<ng-template #loading>
+    <div class="col text-center">
+        <h3 class="mt-5"><i class="fas fa-spinner fa-pulse"></i> Loading data, please wait...</h3>
+    </div>
+</ng-template>

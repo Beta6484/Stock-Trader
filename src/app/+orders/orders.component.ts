@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Order } from '../models/order';
 import { Title } from '@angular/platform-browser';
-import { OrderService } from '../services/order/order.service';
-import { AuthService } from '../services/auth/auth.service';
-import { User } from '../models/user';
-import { filter, first } from 'rxjs/operators';
-import { StockService } from '../services/stock-list/stock.service';
+import { ReplaySubject, Subject } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { Order } from '../models/order';
 import { Stock } from '../models/stock';
-import { merge, Observable, forkJoin } from 'rxjs';
+import { User } from '../models/user';
+import { AuthService } from '../services/auth/auth.service';
+import { StorageService } from '../services/storage/storage.service';
+import { UserService } from '../services/user/user.service';
 
 @Component({
   templateUrl: './orders.component.html',
@@ -16,39 +16,74 @@ import { merge, Observable, forkJoin } from 'rxjs';
 
 export class OrdersComponent implements OnInit {
   public hasOrder: boolean;
-  public orders: Order[];
-  public stocks = [];
-  public orderList = [];
-  private _currentUser: User;
+  public isLoading: boolean = true;
+  public orderList$: Subject<Order[]> = new ReplaySubject<Order[]>(1);
+  public user$: Subject<User> = new ReplaySubject<User>(1);
 
   constructor(
     private _title: Title,
     private _authService: AuthService,
-    private _orderService: OrderService,
-    private _stockService: StockService
+    private _userService: UserService,
+    private _storageService: StorageService
   ) {
     this._title.setTitle('Stock Trader - Orders');
-    this._authService.currentUser.subscribe(user => {
-      this._currentUser = user;
-    })
+    
+    this._userService.getById(this._authService.currentUserValue.id).pipe(first()).subscribe(user => {
+      this.user$.next(user);
+    });
   }
 
   ngOnInit(): void {
-    this.loadMyOrders();
+    this._getMyOrders();
   }
 
-  private loadMyOrders() {
-    this._orderService.getAll().pipe(first()).subscribe(orders => {
-      this.orders = orders.filter(x => x.buyerId === this._currentUser.id);
+  ngOnDestroy(): void {
+    this.orderList$.unsubscribe();
+    this.user$.unsubscribe();
+  }
 
-      for(let i = 0; i < this.orders.length; i++) {
-        this._stockService.getById(this.orders[i].stockId).pipe(first()).subscribe(stocks => {
-          this.stocks.push(stocks);
-        })
+  private _getMyOrders() {
+    this.user$.pipe(first()).subscribe(user => {
+      if(localStorage.getItem('orders') === null) {
+        this.hasOrder = false;
+        this.isLoading = false;
+        return;
       }
 
-      console.log('ORDERS: ', this.orders, typeof this.orders);
-      console.log('STOCKS: ', this.stocks, typeof this.stocks);
-    })
+      const myOrders: Order[] = this._storageService.getStorageByKey('orders').filter(x => x.buyerId === user.id);
+      let currentList = [];
+
+      if(myOrders.length == 0) {
+        this.hasOrder = false;
+        this.isLoading = false;
+        return;
+      }
+
+      for (let i = 0; i < myOrders.length; i++) {
+        const order: Order = myOrders[i];
+        const stock: Stock = this._storageService.getStorageByKey('stock-list').filter(x => x.id === order.stockId)[0];
+        const orderInfo = {
+          id: order.id,
+          stockId: order.stockId,
+          sellerCompany: order.sellerCompany,
+          offered: order.offer,
+          qtdOrdered: order.quantity,
+          aproved: order.aproved,
+          revisedOn: order.revisedOn,
+          placedOn: order.placedOn,
+          currentPrice: stock.price,
+          qtdAvaiable: stock.quantity,
+          company: stock.company,
+          symbol: stock.symbol
+        }
+
+        currentList = currentList.concat(orderInfo);
+      }
+
+      currentList.reverse();
+      this.orderList$.next(currentList);
+      this.hasOrder = true;
+      this.isLoading = false;
+    })  
   }
 }

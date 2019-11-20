@@ -6,6 +6,7 @@ import { AlertModule } from 'ngx-bootstrap';
 import { AlertComponent } from './alert/alert.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { HeaderComponent } from './header/header.component';
     CommonModule,
     HttpClientModule,
     RouterModule,
+    ReactiveFormsModule,
     AlertModule.forRoot()
   ]
 })

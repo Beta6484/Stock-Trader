@@ -53,7 +53,8 @@ export class RegisterComponent implements OnInit {
         Validators.required, 
         Validators.email
       ]],
-      funds: [50000]
+      funds: 50000,
+      lastLogin: Date()
     });
   }
 

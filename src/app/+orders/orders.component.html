@@ -1,22 +1,51 @@
-<div class="row">
-    <ng-container *ngIf="hasOrder; else emptyList">
-        <!-- <div class="col-12 col-md-6 col-lg-4 col-xl-3 mt-3" *ngFor="let item of orders">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between">
-                    <span>
-                        <i class="fas fa-chart-line mr-2"></i>
-                        {{ item.company }}
-                    </span>
-                    <strong>
-                        {{ item.symbol }}
-                    </strong> 
+<ng-container *ngIf="!isLoading; else loading">
+    <ng-container *ngIf="hasOrder && (orderList$ | async) as orderList; else emptyList">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3 mt-3" *ngFor="let item of orderList">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between">
+                        <strong>
+                            Order Nº {{ item.id }}
+                        </strong>
+                        <strong *ngIf="item.aproved" class="text-success">Aproved</strong>
+                        <strong *ngIf="!item.aproved && item.revisedOn === ''" class="text-warning">Waiting</strong>
+                        <strong *ngIf="!item.aproved && item.revisedOn !== ''" class="text-danger">Rejected</strong>
+                    </div>
+                    <div class="card-body">
+                        <label class="lbl-item">
+                            <strong>Order date:</strong> {{ item.placedOn | date: 'short'}}
+                        </label>
+                        <label class="lbl-item">
+                            <strong>Quota:</strong> {{ item.symbol }} ({{ item.company }})
+                        </label>
+                        <label class="lbl-item">
+                            <strong>Seller:</strong> {{ item.sellerCompany }}
+                        </label>
+                        <label class="lbl-item">
+                            <strong>Current price:</strong> {{ item.currentPrice | currency }}
+                        </label>
+                        <label class="lbl-item">
+                            <strong>Available quantity:</strong> {{ item.qtdAvaiable }}
+                        </label>
+                        <label class="lbl-item">
+                            <strong>Offered value:</strong> {{ item.offered | currency }}
+                        </label>
+                        <label class="lbl-item">
+                            <strong>Ordered quantity:</strong> {{ item.qtdOrdered }}
+                        </label>
+                    </div>
                 </div>
             </div>
-        </div> -->
+        </div>
     </ng-container>
     <ng-template #emptyList>
         <div class="col text-center">
-            <h3 class="mt-5">You have no registered orders yet, visit your dashboard to view available options for purchase.</h3>
+            <h3 class="mt-5">You don't have any orders yet, visit your dashboard to view available options for purchase.</h3>
         </div>
     </ng-template>
-</div>
+</ng-container>
+<ng-template #loading>
+    <div class="col text-center">
+        <h3 class="mt-5"><i class="fas fa-spinner fa-pulse"></i> Loading data, please wait...</h3>
+    </div>
+</ng-template>

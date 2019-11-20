@@ -6,13 +6,14 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
+
 export class StockService {
   constructor(
     private _httpClient: HttpClient
   ) {}
 
   getAll() {
-    return this._httpClient.get < Stock[] > (`${environment.apiUrl}/stock-list`);
+    return this._httpClient.get<Stock[]>(`${environment.apiUrl}/stock-list`);
   }
 
   getById(id: number) {
